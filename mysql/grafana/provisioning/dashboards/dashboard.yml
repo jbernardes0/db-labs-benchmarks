@@ -1,0 +1,9 @@
+apiVersion: 1
+
+providers:
+  - name: "MySQL Dashboards"
+    orgId: 1
+    folder: "MySQL"
+    type: file
+    options:
+      path: /var/lib/grafana/dashboards
