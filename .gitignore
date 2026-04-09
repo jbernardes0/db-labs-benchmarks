@@ -1,3 +1,23 @@
+# Docker
+*.log
+*.pid
+
+# Volumes e dados locais
+data/
+volumes/
+docker-data/
+.pgdata/
+.mysql/
+.redis/
+.mongo/
+
+# Overrides locais
+docker-compose.override.yml
+
+# Build artefacts
+tmp/
+cache/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
