@@ -1,5 +1,5 @@
 # General Infra desing
-
+```
 ┌──────────┐         ┌────────────────┐
 │  MySQL   │ ─────── │  MySQL Bench   │
 │          │         │ (load / test)  │
@@ -12,6 +12,7 @@
 ┌────▼─────┐       ┌─────────┐
 │Prometheus│◀────▶│ Grafana │
 └──────────┘       └─────────┘
+```
 
 # Fluxo resumido
 
@@ -27,12 +28,9 @@ $ docker compose up -d
 
 # Acessos padrão
 
-MySQL → localhost:3306
+MySQL → localhost:3306              | user appuser, pass: apppass
 Prometheus → http://localhost:9090
-Grafana → http://localhost:3000
-
-user: admin
-pass: admin
+Grafana → http://localhost:3000     | user: admin, pass: admin
 
 # MySQL Bench
 ```
