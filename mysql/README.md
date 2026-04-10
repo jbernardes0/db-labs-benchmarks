@@ -1,7 +1,7 @@
 # General Infra desing
 ```
 ┌──────────┐         ┌────────────────┐
-│  MySQL   │ ─────── │  MySQL Bench   │
+│  MySQL   │ ─────── │  SysBench      │
 │          │         │ (load / test)  │
 └────┬─────┘         └────────────────┘
      │ metrics
