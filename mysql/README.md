@@ -17,22 +17,32 @@
 # Fluxo resumido
 
 MySQL Bench → gera carga / executa benchmarks
+
 MySQL → processa queries
+
 mysqld_exporter → expõe métricas do MySQL
+
 Prometheus → coleta métricas
+
 Grafana → visualiza tudo (QPS, latência, locks, buffer pool, etc.)
 
-Você inicia esse lab com:
-$ docker compose up -d
 
+Você inicia esse lab com:
+```
+$ docker compose up -d
+```
 
 # Acessos padrão
 
 MySQL → localhost:3306              | user appuser, pass: apppass
+
 Prometheus → http://localhost:9090
+
 Grafana → http://localhost:3000     | user: admin, pass: admin
 
+
 # Rodando o  SysBench
+
 ```
 docker compose --profile bench up -d
 
