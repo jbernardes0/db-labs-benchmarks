@@ -73,3 +73,11 @@ sysbench \
   run
 
 ```
+
+## Zerando o lab:
+
+```
+docker compose down -v
+rm -rf data/mysql data/grafana
+docker compose up -d
+```
