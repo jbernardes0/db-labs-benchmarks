@@ -176,7 +176,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "gridPos": {
         "h": 2,
@@ -200,7 +200,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "refId": "A"
         }
@@ -210,7 +210,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "",
       "gridPos": {
@@ -234,7 +234,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "refId": "A"
         }
@@ -245,7 +245,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "If this parameter is on, the PostgreSQL server will try to make sure that updates are physically written to disk, by issuing fsync() system calls or various equivalent methods (see wal_sync_method). This ensures that the database cluster can recover to a consistent state after an operating system or hardware crash.",
       "fieldConfig": {
@@ -336,7 +336,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_fsync{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_fsync{service_name=~\"$service_name\"}[5m]))",
@@ -379,7 +379,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Maximum time between automatic WAL checkpoints.",
       "fieldConfig": {
@@ -454,7 +454,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_checkpoint_timeout_seconds{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_checkpoint_timeout_seconds{service_name=~\"$service_name\"}[5m])) ",
@@ -471,7 +471,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Specifies the target of checkpoint completion, as a fraction of total time between checkpoints.",
       "fieldConfig": {
@@ -546,7 +546,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_checkpoint_completion_target{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_checkpoint_completion_target{service_name=~\"$service_name\"}[5m]))",
@@ -563,7 +563,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Whenever more than this amount of data has been written while performing a checkpoint, attempt to force the OS to issue these writes to the underlying storage.",
       "fieldConfig": {
@@ -637,7 +637,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_checkpoint_flush_after_bytes{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_checkpoint_flush_after_bytes{service_name=~\"$service_name\"}[5m]))",
@@ -654,7 +654,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Causes checkpoints and restartpoints to be logged in the server log. Some statistics are included in the log messages, including the number of buffers written and the time spent writing them.",
       "fieldConfig": {
@@ -728,7 +728,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_log_checkpoints{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_log_checkpoints{service_name=~\"$service_name\"}[5m]))",
@@ -746,7 +746,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Write a message to the server log if checkpoints caused by the filling of WAL segment files happen closer together than this amount of time (which suggests that max_wal_size ought to be raised). ",
       "fieldConfig": {
@@ -820,7 +820,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_checkpoint_warning_seconds{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_checkpoint_warning_seconds{service_name=~\"$service_name\"}[5m]))",
@@ -842,7 +842,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "A requested checkpoint can happen due to a forced checkpoint due to insufficient max_wal_size, or  when the server is stopped. \\\nA scheduled checkpoint can happen due to checkpoint_timeout being depleted, or to a CHECKPOINT command.",
@@ -896,7 +896,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (rate(pg_stat_bgwriter_checkpoints_timed{service_name=~'$service_name'}[$interval]) or\nirate(pg_stat_bgwriter_checkpoints_timed{service_name=~'$service_name'}[5m]))",
@@ -913,7 +913,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -970,7 +970,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "fieldConfig": {
@@ -1030,7 +1030,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "expr": "avg by (service_name) (rate(pg_stat_bgwriter_checkpoint_sync_time{service_name=~'$service_name'}[$interval]) or\nirate(pg_stat_bgwriter_checkpoint_sync_time{service_name=~'$service_name'}[5m]))",
           "format": "time_series",
@@ -1045,7 +1045,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -1063,7 +1063,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "exemplar": true,
           "expr": "pg_settings_checkpoint_timeout_seconds{service_name=\"$service_name\"}",
@@ -1123,7 +1123,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Defines the amount of memory the database server uses for shared memory buffers.  Default is 128MB.  Guidance on tuning is 25% of RAM, but generally doesn't exceed 40%.",
       "fieldConfig": {
@@ -1198,7 +1198,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "expr": "avg by (service_name) (max_over_time(pg_settings_shared_buffers_bytes{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_shared_buffers_bytes{service_name=~\"$service_name\"}[5m])) ",
           "format": "time_series",
@@ -1213,7 +1213,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Background writer maximum number of LRU pages to flush per round.\nSmaller values of bgwriter_lru_maxpages and bgwriter_lru_multiplier reduce the extra I/O load caused by the background writer, but make it more likely that server processes will have to issue writes for themselves, delaying interactive queries.",
       "fieldConfig": {
@@ -1283,7 +1283,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_bgwriter_lru_maxpages{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_bgwriter_lru_maxpages{service_name=~\"$service_name\"}[5m]))",
@@ -1300,7 +1300,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Specifies the delay between activity rounds for the background writer. \nIf this value is specified without units, it is taken as milliseconds.",
       "fieldConfig": {
@@ -1370,7 +1370,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_bgwriter_delay_seconds{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_bgwriter_delay_seconds{service_name=~\"$service_name\"}[5m]))",
@@ -1387,7 +1387,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "The number of dirty buffers written in each round is based on the number of new buffers that have been needed by server processes during recent rounds. The average recent need is multiplied by bgwriter_lru_multiplier to arrive at an estimate of the number of buffers that will be needed during the next round.",
       "fieldConfig": {
@@ -1457,7 +1457,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_bgwriter_lru_multiplier{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_bgwriter_lru_multiplier{service_name=~\"$service_name\"}[5m]))",
@@ -1474,7 +1474,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "The last time the background writer statistics were reset.",
       "fieldConfig": {
@@ -1549,7 +1549,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "pg_stat_bgwriter_stats_reset{service_name=~\"$service_name\"}*1000",
@@ -1570,7 +1570,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "Buffers read into the shared memory buffers. These reads could come from the page cache (memory) or I/O subsystem.",
@@ -1628,7 +1628,7 @@
           "alias": "Buffers Allocated",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "dsType": "prometheus",
           "editorMode": "code",
@@ -1726,7 +1726,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "Buffers written to disk during checkpoints, by the background writer, or by backend processes.",
@@ -1784,7 +1784,7 @@
           "alias": "Buffers Allocated",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "dsType": "prometheus",
           "editorMode": "code",
@@ -1843,7 +1843,7 @@
           "alias": "Buffers Allocated",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "dsType": "prometheus",
           "editorMode": "code",
@@ -1902,7 +1902,7 @@
           "alias": "Buffers Allocated",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "dsType": "prometheus",
           "editorMode": "code",
@@ -2000,7 +2000,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "",
@@ -2058,7 +2058,7 @@
           "alias": "Buffers Allocated",
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "dsType": "prometheus",
           "editorMode": "code",
@@ -2156,7 +2156,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "The background writer was forced to stop due to reaching the max page limit (bgwriter_lru_maxpages).",
@@ -2217,7 +2217,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (rate(pg_stat_bgwriter_maxwritten_clean{service_name=~'$service_name'}[$interval]) or\nirate(pg_stat_bgwriter_maxwritten_clean{service_name=~'$service_name'}[5m]))",
@@ -2277,7 +2277,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "As long as WAL disk usage stays below this setting, old WAL files are always recycled for future use at a checkpoint, rather than removed. This can be used to ensure that enough WAL space is reserved to handle spikes in WAL usage, for example when running large batch jobs.",
       "fieldConfig": {
@@ -2352,7 +2352,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_min_wal_size_bytes{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_min_wal_size_bytes{service_name=~\"$service_name\"}[5m]))",
@@ -2370,7 +2370,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Maximum size to let the WAL grow during automatic checkpoints. This is a soft limit; WAL size can exceed max_wal_size under special circumstances, such as heavy load, a failing archive_command or archive_library, or a high wal_keep_size setting.",
       "fieldConfig": {
@@ -2444,7 +2444,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_max_wal_size_bytes{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_max_wal_size_bytes{service_name=~\"$service_name\"}[5m]))",
@@ -2461,7 +2461,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "The amount of shared memory used for WAL data that has not yet been written to disk. The default setting of -1 selects a size equal to 1/32nd (about 3%) of shared_buffers, but not less than 64kB nor more than the size of one WAL segment, typically 16MB.",
       "fieldConfig": {
@@ -2535,7 +2535,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_wal_buffers_bytes{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_wal_buffers_bytes{service_name=~\"$service_name\"}[5m]))",
@@ -2552,7 +2552,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "Specifies the minimum size of past log file segments kept in the pg_wal directory, in case a standby server needs to fetch them for streaming replication.",
       "fieldConfig": {
@@ -2626,7 +2626,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_wal_keep_size_bytes{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_wal_keep_size_bytes{service_name=~\"$service_name\"}[5m]))",
@@ -2643,7 +2643,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "",
       "fieldConfig": {
@@ -2708,7 +2708,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": false,
@@ -2727,7 +2727,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "description": "When this parameter is on, the PostgreSQL server writes the entire content of each disk page to WAL during the first modification of that page after a checkpoint. Turning this parameter off speeds normal operation, but might lead to either unrecoverable data corruption, or silent data corruption, after a system failure.",
       "fieldConfig": {
@@ -2818,7 +2818,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "expr": "avg by (service_name) (max_over_time(pg_settings_full_page_writes{service_name=~\"$service_name\"}[$interval]) or\nmax_over_time(pg_settings_full_page_writes{service_name=~\"$service_name\"}[5m]))",
@@ -2839,7 +2839,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "Writes to WAL log files.\\\nA custom query collector is needed for this metric to be populated by the pmm-client node.",
@@ -2918,7 +2918,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -2974,7 +2974,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "Writes to WAL log files, grouped by checkpoint_timeout seconds. If the grouped average is greater than the max_wal_size value, then increasing it should yield less forced checkpointing.\\\nA custom query collector is needed for this metric to be populated by the pmm-client node.",
@@ -3053,7 +3053,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3068,7 +3068,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3124,7 +3124,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "${DS_METRICS}"
+        "uid": "Prometheus"
       },
       "decimals": 2,
       "description": "LSN locations to operations on WAL log files.\\\nA custom query collector is needed for this metric to be populated by the pmm-client node.",
@@ -3203,7 +3203,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3217,7 +3217,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3231,7 +3231,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "editorMode": "code",
           "exemplar": true,
@@ -3297,7 +3297,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "description": "The parameter shows how long a system has been “up” and running without a shut down or restart.",
           "fieldConfig": {
@@ -3360,7 +3360,7 @@
               "calculatedInterval": "10m",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -3381,7 +3381,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "description": "The system load is a measurement of the computational work the system is performing. Each running process either using or waiting for CPU resources adds 1 to the load.",
           "fieldConfig": {
@@ -3452,7 +3452,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) (avg_over_time(node_load1{node_name=~\"$node_name\"}[$interval]) or avg_over_time(node_load1{node_name=~\"$node_name\"}[5m]))",
               "format": "time_series",
@@ -3467,7 +3467,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "description": "RAM (Random Access Memory) is the hardware in a computing device where the operating system, application programs and data in current use are kept so they can be quickly reached by the device's processor.",
           "fieldConfig": {
@@ -3535,7 +3535,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) (node_memory_MemTotal_bytes{node_name=~\"$node_name\"})",
               "format": "time_series",
@@ -3551,7 +3551,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "description": "Percent of Memory Available\nNote: on Modern Linux Kernels amount of Memory Available for application is not the same as Free+Cached+Buffers",
           "fieldConfig": {
@@ -3622,7 +3622,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) ((node_memory_MemAvailable_bytes{node_name=~\"$node_name\"} or (node_memory_MemFree_bytes{node_name=~\"$node_name\"} + node_memory_Buffers_bytes{node_name=~\"$node_name\"} + node_memory_Cached_bytes{node_name=~\"$node_name\"})) / node_memory_MemTotal_bytes{node_name=~\"$node_name\"} * 100)",
               "format": "time_series",
@@ -3637,7 +3637,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "description": "RAM + SWAP",
           "fieldConfig": {
@@ -3705,7 +3705,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) (node_memory_MemTotal_bytes{node_name=~\"$node_name\"}+node_memory_SwapTotal_bytes{node_name=~\"$node_name\"})",
               "format": "time_series",
@@ -3721,7 +3721,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "description": "Sum of disk space on all partitions. Note  it can be significantly over-reported in some installations",
           "fieldConfig": {
@@ -3795,7 +3795,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) (sum(avg(node_filesystem_size_bytes{node_name=~\"$node_name\",fstype=~\"(ext.|xfs|vfat|)\"}) without (mountpoint)) without (device,fstype))",
               "format": "time_series",
@@ -3811,7 +3811,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "description": "Lowest percent of the disk space available",
           "fieldConfig": {
@@ -3882,7 +3882,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "min(node_filesystem_free_bytes{node_name=~\"$node_name\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|shm|overlay|squashfs\"}/node_filesystem_size_bytes{node_name=~\"$node_name\", fstype!~\"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|shm|overlay|squashfs\"})*100",
               "format": "time_series",
@@ -3932,7 +3932,7 @@
           "dashes": false,
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "decimals": 2,
           "description": "The CPU time is measured in clock ticks or seconds. It is useful to measure CPU time as a percentage of the CPU's capacity, which is called the CPU usage.",
@@ -4000,7 +4000,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name,mode) (clamp_max(((avg by (mode) ( (clamp_max(rate(node_cpu_seconds_total{node_name=~\"$node_name\",mode!=\"idle\"}[$interval]),1)) or (clamp_max(irate(node_cpu_seconds_total{node_name=~\"$node_name\",mode!=\"idle\"}[5m]),1)) ))*100 or (avg_over_time(node_cpu_average{node_name=~\"$node_name\", mode!=\"total\", mode!=\"idle\"}[$interval]) or avg_over_time(node_cpu_average{node_name=~\"$node_name\", mode!=\"total\", mode!=\"idle\"}[5m]))),100))",
               "format": "time_series",
@@ -4012,7 +4012,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "clamp_max(max by () (sum  by (cpu) ( (clamp_max(rate(node_cpu_seconds_total{node_name=~\"$node_name\",mode!=\"idle\",mode!=\"iowait\"}[$interval]),1)) or (clamp_max(irate(node_cpu_seconds_total{node_name=~\"$node_name\",mode!=\"idle\",mode!=\"iowait\"}[5m]),1)) )),1)",
               "format": "time_series",
@@ -4074,7 +4074,7 @@
           "dashes": false,
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "decimals": 2,
           "description": "When a system is running with maximum CPU utilization, the transmitting and receiving threads must all share the available CPU. This will cause data to be queued more frequently to cope with the lack of CPU. CPU Saturation may be measured as the length of a wait queue, or the time spent waiting on the queue.",
@@ -4141,7 +4141,7 @@
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4160,7 +4160,7 @@
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4224,7 +4224,7 @@
           "dashes": false,
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "decimals": 2,
           "description": "Disk I/O includes read or write or input/output operations involving a physical disk. It is the speed with which the data transfer takes place between the hard disk drive and RAM.\n\nSwap Activity is memory management that involves swapping sections of memory to and from physical storage.",
@@ -4302,7 +4302,7 @@
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4320,7 +4320,7 @@
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4337,7 +4337,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) ((rate(node_vmstat_pgpgin{node_name=\"$node_name\"}[$interval]) * 1024 or irate(node_vmstat_pgpgin{node_name=\"$node_name\"}[5m]) * 1024 ) + (rate(node_vmstat_pgpgout{node_name=\"$node_name\"}[$interval]) * 1024 or irate(node_vmstat_pgpgout{node_name=\"$node_name\"}[5m]) * 1024))",
               "format": "time_series",
@@ -4349,7 +4349,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) (rate(node_vmstat_pswpin{node_name=\"$node_name\"}[$interval]) * 4096 or irate(node_vmstat_pswpin{node_name=\"$node_name\"}[5m]) * 4096)",
               "format": "time_series",
@@ -4361,7 +4361,7 @@
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "expr": "avg by (node_name) (rate(node_vmstat_pswpout{node_name=\"$node_name\"}[$interval]) * 4096 or irate(node_vmstat_pswpout{node_name=\"$node_name\"}[5m]) * 4096)",
               "format": "time_series",
@@ -4412,7 +4412,7 @@
           "dashes": false,
           "datasource": {
             "type": "prometheus",
-            "uid": "${DS_METRICS}"
+            "uid": "Prometheus"
           },
           "decimals": 2,
           "description": "Network traffic refers to the amount of data moving across a network at a given point in time.",
@@ -4475,7 +4475,7 @@
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4493,7 +4493,7 @@
               "calculatedInterval": "2s",
               "datasource": {
                 "type": "prometheus",
-                "uid": "${DS_METRICS}"
+                "uid": "Prometheus"
               },
               "datasourceErrors": {},
               "errors": {},
@@ -4626,7 +4626,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4651,7 +4651,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values(pg_up{service_name=~\"$service_name\"},node_name)",
         "hide": 2,
@@ -4677,7 +4677,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values(pg_up, service_name)",
         "hide": 0,
@@ -4703,7 +4703,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4728,7 +4728,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4753,7 +4753,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4778,7 +4778,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4803,7 +4803,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4828,7 +4828,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4853,7 +4853,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4878,7 +4878,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4903,7 +4903,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4928,7 +4928,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4953,7 +4953,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -4978,7 +4978,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5003,7 +5003,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5028,7 +5028,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5053,7 +5053,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5078,7 +5078,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5103,7 +5103,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5128,7 +5128,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5153,7 +5153,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5178,7 +5178,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5203,7 +5203,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5228,7 +5228,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5253,7 +5253,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5278,7 +5278,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5303,7 +5303,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5328,7 +5328,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5353,7 +5353,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5378,7 +5378,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5403,7 +5403,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5428,7 +5428,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5453,7 +5453,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5478,7 +5478,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5503,7 +5503,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5528,7 +5528,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5553,7 +5553,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5578,7 +5578,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5603,7 +5603,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5628,7 +5628,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "",
         "hide": 2,
@@ -5654,7 +5654,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values({__name__=~\"pg_up|mysql_up|mongodb_up|proxysql_mysql_status_active_transactions\"}, environment)",
         "hide": 2,
@@ -5680,7 +5680,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values({__name__=~\"pg_up|mysql_up|mongodb_up|proxysql_mysql_status_active_transactions\"}, cluster)",
         "hide": 2,
@@ -5706,7 +5706,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values({__name__=~\"pg_up|mysql_up|mongodb_up|proxysql_mysql_status_active_transactions\"}, replication_set)",
         "hide": 2,
@@ -5732,7 +5732,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values({__name__=~\"pg_up|mysql_up|mongodb_up|proxysql_mysql_status_active_transactions\"}, node_type)",
         "hide": 2,
@@ -5758,7 +5758,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values({__name__=~\"pg_up|mysql_up|mongodb_up|proxysql_mysql_status_active_transactions\"}, service_type)",
         "hide": 2,
@@ -5784,7 +5784,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values(mysql_info_schema_user_statistics_connected_time_seconds_total{service_name=\"$service_name\"},user)",
         "hide": 2,
@@ -5810,7 +5810,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values({__name__=~\"pg_up|mysql_up|mongodb_up|proxysql_mysql_status_active_transactions\"}, schema)",
         "hide": 2,
@@ -5836,7 +5836,7 @@
         "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "${DS_METRICS}"
+          "uid": "Prometheus"
         },
         "definition": "label_values(pg_up{service_name=\"$service_name\"}, service_id)",
         "hide": 2,

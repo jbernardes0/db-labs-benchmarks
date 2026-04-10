@@ -32,22 +32,44 @@ MySQL → localhost:3306              | user appuser, pass: apppass
 Prometheus → http://localhost:9090
 Grafana → http://localhost:3000     | user: admin, pass: admin
 
-# MySQL Bench
+# Rodando o  SysBench
 ```
-docker exec -it mysqlbench bash
+docker compose --profile bench up -d
 
-mysql \
-  -h mysql \
-  -u appuser \
-  -papppass \
-  appdb
+-- No banco
+docker exec -it mysql bash
 
-mysqlslap \
-  --host=mysql \
-  --user=appuser \
-  --password=apppass \
-  --concurrency=10 \
-  --iterations=5 \
-  --auto-generate-sql
+CREATE USER 'bench'@'%' 
+IDENTIFIED WITH mysql_native_password 
+BY 'benchpass';
+
+GRANT ALL PRIVILEGES ON appdb.* TO 'bench'@'%';
+FLUSH PRIVILEGES;
+
+-- O fluxo do sysbench é: prepare > run > cleanup
+
+docker exec -it sysbench bash
+
+sysbench \
+  /usr/share/sysbench/oltp_write_only.lua \
+  --mysql-host=mysql \
+  --mysql-user=bench \
+  --mysql-password=benchpass \
+  --mysql-db=appdb \
+  --tables=4 \
+  --table-size=100000 \
+  prepare
+
+
+sysbench \
+  /usr/share/sysbench/oltp_write_only.lua \
+  --mysql-host=mysql \
+  --mysql-user=bench \
+  --mysql-password=benchpass \
+  --mysql-db=appdb \
+  --threads=4 \
+  --time=60 \
+  --report-interval=5 \
+  run
 
 ```

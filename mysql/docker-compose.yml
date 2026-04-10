@@ -14,16 +14,20 @@ services:
     ports:
       - "3306:3306"
 
+
   mysqld_exporter:
     image: prom/mysqld-exporter
     container_name: mysqld_exporter
     restart: unless-stopped
-    environment:
-      DATA_SOURCE_NAME: "appuser:apppass@(mysql:3306)/"
+    volumes:
+      - ./mysqld-exporter/.my.cnf:/etc/.my.cnf:ro
+    command:
+      - "--config.my-cnf=/etc/.my.cnf"
     depends_on:
       - mysql
     ports:
       - "9104:9104"
+
 
   prometheus:
     image: prom/prometheus
@@ -50,12 +54,14 @@ services:
     depends_on:
       - prometheus
 
-
-  mysqlbench:
-    image: mysql:8.0
-    container_name: mysqlbench
+  sysbench:
+    image: severalnines/sysbench
+    container_name: sysbench
     profiles:
       - bench
+    volumes:
+      - ./sysbench:/work
     entrypoint: ["sleep", "infinity"]
     depends_on:
       - mysql
+
