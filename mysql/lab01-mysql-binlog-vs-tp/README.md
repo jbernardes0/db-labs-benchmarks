@@ -16,7 +16,7 @@
 
 # Fluxo resumido
 
-SysBench → gera carga / executa benchmarks
+SysBench → gera carga
 
 MySQL → processa queries
 
@@ -24,7 +24,7 @@ mysqld_exporter → expõe métricas do MySQL
 
 Prometheus → coleta métricas
 
-Grafana → visualiza tudo (QPS, latência, locks, buffer pool, etc.)
+Grafana → visualiza tudo, com foco no dashboard mysql_write_path
 
 
 Você inicia esse lab com:
@@ -45,29 +45,10 @@ Grafana → http://localhost:3000     | user: admin, pass: admin
 
 ```
 docker compose --profile bench up -d
-```
 
-O fluxo do sysbench é: prepare > run > cleanup
-
-```
 docker exec -it sysbench bash
 
-sysbench \
-  /usr/share/sysbench/oltp_write_only.lua \
-  --mysql-host=mysql \
-  --mysql-user=bench \
-  --mysql-password=benchpass \
-  --mysql-db=appdb \
-  --threads=4 \
-  --time=60 \
-  --report-interval=5 \
-  run
-
-
--- Restartando db instance para limpar cache
-docker restart mysql
-
--- Rodando teste customizado, commit a cada 1 insert:
+-- Rodando teste commit_every_n.lua, commit a cada 1 insert:
 
 sysbench \
   /work/commit_every_n.lua \
@@ -82,7 +63,7 @@ sysbench \
   --inserts-per-tx=1 \
   run
 
--- Rodando teste customizado, commit a cada 5 insert:
+-- Rodando teste commit_every_n.lua, commit a cada 5 insert:
 
 sysbench \
   /work/commit_every_n.lua \
@@ -97,7 +78,7 @@ sysbench \
   --inserts-per-tx=5 \
   run
 
--- Rodando teste customizado, commit a cada 20 insert:
+-- Rodando teste commit_every_n.lua, commit a cada 20 insert:
 
 sysbench \
   /work/commit_every_n.lua \
