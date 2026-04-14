@@ -1,0 +1,104 @@
+# General Infra desing
+```
+┌──────────┐         ┌────────────────┐
+│  MySQL   │ ─────── │  SysBench      │
+│          │         │ (load / test)  │
+└────┬─────┘         └────────────────┘
+     │ metrics
+┌────▼────────────┐
+│ mysqld_exporter │
+└────┬────────────┘
+     │
+┌────▼─────┐       ┌─────────┐
+│Prometheus│◀────▶│ Grafana │
+└──────────┘       └─────────┘
+```
+
+# Fluxo resumido
+
+SysBench → gera carga
+
+MySQL → processa queries
+
+mysqld_exporter → expõe métricas do MySQL
+
+Prometheus → coleta métricas
+
+Grafana → visualiza tudo, com foco no dashboard mysql_write_path
+
+
+Você inicia esse lab com:
+```
+$ docker compose up -d
+```
+
+# Acessos padrão
+
+MySQL → localhost:3306              | user appuser, pass: apppass
+
+Prometheus → http://localhost:9090
+
+Grafana → http://localhost:3000     | user: admin, pass: admin
+
+
+# Rodando o  SysBench
+
+```
+docker compose --profile bench up -d
+
+docker exec -it sysbench bash
+
+-- Rodando teste commit_every_n.lua, commit a cada 1 insert:
+
+sysbench \
+  /work/commit_every_n.lua \
+  --mysql-host=mysql \
+  --mysql-user=bench \
+  --mysql-password=benchpass \
+  --mysql-db=appdb \
+  --threads=4 \
+  --events=0 \
+  --time=60 \
+  --report-interval=10 \
+  --inserts-per-tx=1 \
+  run
+
+-- Rodando teste commit_every_n.lua, commit a cada 5 insert:
+
+sysbench \
+  /work/commit_every_n.lua \
+  --mysql-host=mysql \
+  --mysql-user=bench \
+  --mysql-password=benchpass \
+  --mysql-db=appdb \
+  --threads=4 \
+  --events=0 \
+  --time=60 \
+  --report-interval=10 \
+  --inserts-per-tx=5 \
+  run
+
+-- Rodando teste commit_every_n.lua, commit a cada 20 insert:
+
+sysbench \
+  /work/commit_every_n.lua \
+  --mysql-host=mysql \
+  --mysql-user=bench \
+  --mysql-password=benchpass \
+  --mysql-db=appdb \
+  --threads=4 \
+  --events=0 \
+  --time=60 \
+  --report-interval=10 \
+  --inserts-per-tx=20 \
+  run
+
+```
+
+## Zerando o lab:
+
+```
+docker compose down -v
+rm -rf data/mysql data/grafana
+docker compose up -d
+```
