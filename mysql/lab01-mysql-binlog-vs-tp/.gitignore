@@ -1,0 +1,12 @@
+# Docker / runtime data
+data/
+
+# Grafana state
+grafana/data/
+
+# Prometheus
+prometheus/data/
+
+# Overrides locais
+docker-compose.override.yml
+.env
