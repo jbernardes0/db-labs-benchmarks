@@ -16,7 +16,7 @@
 
 # Fluxo resumido
 
-MySQL Bench → gera carga / executa benchmarks
+SysBench → gera carga / executa benchmarks
 
 MySQL → processa queries
 
@@ -45,31 +45,12 @@ Grafana → http://localhost:3000     | user: admin, pass: admin
 
 ```
 docker compose --profile bench up -d
+```
 
--- No banco
-docker exec -it mysql bash
+O fluxo do sysbench é: prepare > run > cleanup
 
-CREATE USER 'bench'@'%' 
-IDENTIFIED WITH mysql_native_password 
-BY 'benchpass';
-
-GRANT ALL PRIVILEGES ON appdb.* TO 'bench'@'%';
-FLUSH PRIVILEGES;
-
--- O fluxo do sysbench é: prepare > run > cleanup
-
+```
 docker exec -it sysbench bash
-
-sysbench \
-  /usr/share/sysbench/oltp_write_only.lua \
-  --mysql-host=mysql \
-  --mysql-user=bench \
-  --mysql-password=benchpass \
-  --mysql-db=appdb \
-  --tables=4 \
-  --table-size=100000 \
-  prepare
-
 
 sysbench \
   /usr/share/sysbench/oltp_write_only.lua \
@@ -80,6 +61,25 @@ sysbench \
   --threads=4 \
   --time=60 \
   --report-interval=5 \
+  run
+
+
+-- Restartando db instance para limpar cache
+docker restart mysql
+
+-- Rodando teste customizado, commit every N:
+
+sysbench \
+  /work/commit_every_n.lua \
+  --mysql-host=mysql \
+  --mysql-user=bench \
+  --mysql-password=benchpass \
+  --mysql-db=appdb \
+  --threads=4 \
+  --events=0 \
+  --time=60 \
+  --report-interval=10 \
+  --inserts-per-tx=1 \
   run
 
 ```

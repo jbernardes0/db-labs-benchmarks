@@ -28,6 +28,7 @@
         "x": 0,
         "y": 0
       },
+      "id": 1,
       "panels": [],
       "title": "MySQL Write Path",
       "type": "row"
@@ -51,7 +52,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 72,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -99,6 +100,7 @@
         "x": 0,
         "y": 1
       },
+      "id": 2,
       "options": {
         "legend": {
           "calcs": [],
@@ -117,7 +119,7 @@
         {
           "editorMode": "code",
           "expr": "rate(mysql_global_status_commands_total{command=\"insert\"}[1m])",
-          "legendFormat": "__auto",
+          "legendFormat": "inserts",
           "range": true,
           "refId": "A"
         },
@@ -129,7 +131,7 @@
           "editorMode": "code",
           "expr": "rate(mysql_global_status_commands_total{command=\"update\"}[1m])",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "updates",
           "range": true,
           "refId": "B"
         },
@@ -141,7 +143,7 @@
           "editorMode": "code",
           "expr": "rate(mysql_global_status_commands_total{command=\"delete\"}[1m])",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "deletes",
           "range": true,
           "refId": "C"
         },
@@ -151,10 +153,9 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(\r\n  rate(mysql_global_status_commands_total{command=~\"insert|update|delete\"}[1m])\r\n)",
-          "hide": true,
+          "expr": "rate(mysql_global_status_commands_total{command=\"select\"}[1m])",
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "select",
           "range": true,
           "refId": "D"
         }
@@ -182,7 +183,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 59,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -201,7 +202,7 @@
             "spanNulls": false,
             "stacking": {
               "group": "A",
-              "mode": "none"
+              "mode": "normal"
             },
             "thresholdsStyle": {
               "mode": "off"
@@ -230,6 +231,7 @@
         "x": 6,
         "y": 1
       },
+      "id": 3,
       "options": {
         "legend": {
           "calcs": [],
@@ -247,10 +249,21 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "sum(\r\n  rate(mysql_global_status_commands_total{command=~\"commit|rollback\"}[1m])\r\n)",
-          "legendFormat": "__auto",
+          "expr": "sum(\r\n  rate(mysql_global_status_commands_total{command=~\"commit\"}[1m])\r\n)",
+          "legendFormat": "commit",
           "range": true,
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "Prometheus"
+          },
+          "editorMode": "code",
+          "expr": "sum(\r\n  rate(mysql_global_status_commands_total{command=~\"rollback\"}[1m])\r\n)",
+          "legendFormat": "rollback",
+          "range": true,
+          "refId": "B"
         }
       ],
       "title": "Commit Rate (TPS)",
@@ -262,7 +275,7 @@
         "type": "prometheus",
         "uid": "Prometheus"
       },
-      "description": "baixo e estável → ok\ncrescendo proporcional ao TPS → normal\nalto demais com TPS baixo → flush excessivo / innodb_flush_log_at_trx_commit",
+      "description": "Isso mede:\n\n- pressão de flush no redo log\n- frequência de syncs no caminho crítico de escrita\n\nsensibilidade direta a:\n\n- innodb_flush_log_at_trx_commit\n- padrão de commit (autocommit vs batch)\n- comportamento do workload (commit-heavy vs write-heavy)\n\nSituacao\n\nbaixo e estável → ok\ncrescendo proporcional ao TPS → normal\nalto demais com TPS baixo → flush excessivo / innodb_flush_log_at_trx_commit",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -325,6 +338,7 @@
         "x": 12,
         "y": 1
       },
+      "id": 4,
       "options": {
         "legend": {
           "calcs": [],
@@ -347,7 +361,7 @@
           },
           "editorMode": "code",
           "expr": "rate(mysql_global_status_innodb_os_log_fsyncs[1m])",
-          "legendFormat": "__auto",
+          "legendFormat": "fsyncs",
           "range": true,
           "refId": "A"
         }
@@ -438,6 +452,7 @@
         "x": 18,
         "y": 1
       },
+      "id": 5,
       "options": {
         "cellHeight": "sm",
         "showHeader": true
@@ -565,7 +580,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 11,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -574,8 +589,8 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
+            "lineWidth": 2,
+            "pointSize": 1,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -591,6 +606,7 @@
             }
           },
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -613,6 +629,7 @@
         "x": 0,
         "y": 11
       },
+      "id": 6,
       "options": {
         "legend": {
           "calcs": [],
@@ -630,8 +647,8 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "rate(mysql_global_status_innodb_os_log_fsyncs[1m])\r\n/\r\nclamp_min(\r\n  rate(mysql_global_status_commands_total{command=\"commit\"}[1m]),\r\n  1\r\n)",
-          "legendFormat": "__auto",
+          "expr": "increase(mysql_global_status_innodb_os_log_fsyncs[1m])\r\n/\r\nclamp_min(\r\n  sum by (instance, job) (\r\n    increase(mysql_global_status_commands_total{command=\"commit\"}[1m])\r\n  ),\r\n  1\r\n)\r\n",
+          "legendFormat": "Razão innodb_os_log_fsyncs/commits",
           "range": true,
           "refId": "A"
         }
@@ -697,7 +714,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "Bps"
         },
         "overrides": []
       },
@@ -707,6 +725,7 @@
         "x": 6,
         "y": 11
       },
+      "id": 7,
       "options": {
         "legend": {
           "calcs": [],
@@ -725,12 +744,12 @@
         {
           "editorMode": "code",
           "expr": "rate(mysql_global_status_innodb_os_log_written[1m])",
-          "legendFormat": "__auto",
+          "legendFormat": "innodb_os_log_written",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Commit cost (fsync pressure)",
+      "title": "Redo write throughput",
       "transparent": true,
       "type": "timeseries"
     },
@@ -791,7 +810,8 @@
                 "value": 80
               }
             ]
-          }
+          },
+          "unit": "Bps"
         },
         "overrides": []
       },
@@ -801,6 +821,7 @@
         "x": 12,
         "y": 11
       },
+      "id": 8,
       "options": {
         "legend": {
           "calcs": [],
@@ -819,12 +840,12 @@
         {
           "editorMode": "code",
           "expr": "rate(mysql_global_status_innodb_data_written[1m])",
-          "legendFormat": "__auto",
+          "legendFormat": "innodb_data_written",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Write pressure total - innodb_data_written",
+      "title": "Write pressure total (flush throughput)",
       "transparent": true,
       "type": "timeseries"
     }
@@ -835,7 +856,13 @@
   "templating": {
     "list": []
   },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
   "timepicker": {},
-  "title": " MySQL – Write Path",
+  "timezone": "browser",
+  "title": "MySQL – Write Path",
+  "version": 1,
   "weekStart": ""
 }

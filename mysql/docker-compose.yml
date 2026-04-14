@@ -3,6 +3,11 @@ services:
     image: mysql:8.0
     container_name: mysql
     restart: unless-stopped
+    command:
+      - --innodb-redo-log-capacity=4G
+      - --innodb_flush_log_at_trx_commit=1
+      - --sync_binlog=1
+
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: appdb
@@ -13,6 +18,8 @@ services:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "3306:3306"
+    networks:
+      - monitoring
 
 
   mysqld_exporter:
@@ -27,6 +34,8 @@ services:
       - mysql
     ports:
       - "9104:9104"
+    networks:
+      - monitoring
 
 
   prometheus:
@@ -37,6 +46,8 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
+    networks:
+      - monitoring
 
   grafana:
     image: grafana/grafana
@@ -53,6 +64,8 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+    networks:
+      - monitoring
 
   sysbench:
     image: severalnines/sysbench
@@ -64,4 +77,9 @@ services:
     entrypoint: ["sleep", "infinity"]
     depends_on:
       - mysql
+    networks:
+      - monitoring
 
+networks:
+  monitoring:
+    driver: bridge
