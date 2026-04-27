@@ -8,7 +8,7 @@ CREATE TABLE customers (
 CREATE TABLE orders (
     id BIGINT PRIMARY KEY,
     created_at TIMESTAMP NOT NULL,
-    customer_id BIGINT NOT NULL
+    customer_id BIGINT NOT NULL REFERENCES customers(id)
 );
 
 CREATE TABLE order_items (

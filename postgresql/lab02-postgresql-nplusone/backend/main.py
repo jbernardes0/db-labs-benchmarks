@@ -10,6 +10,7 @@ DB_CONFIG = {
     "dbname": os.getenv("DB_NAME", "nplusone"),
     "user": os.getenv("DB_USER", "lab"),
     "password": os.getenv("DB_PASSWORD", "lab"),
+    "row_factory": psycopg.rows.dict_row,
 }
 
 def get_conn():
@@ -18,93 +19,100 @@ def get_conn():
 # -------------------------------------------------------------------
 # Endpoint ERRADO – N+1 proposital
 # -------------------------------------------------------------------
-@app.get("/orders/nplus1")
-def list_orders_nplus1(limit: int = 100):
+
+@app.get("/customers/{customer_id}/products/nplus1")
+def customer_products_nplus1(customer_id: int):
     conn = get_conn()
-    orders = []
+    products = []
 
     with conn.cursor() as cur:
+        # 1 query: pedidos do cliente
         cur.execute(
             """
-            SELECT id, customer_id, created_at
-            FROM orders
-            ORDER BY created_at DESC
-            LIMIT %s
+            SELECT 
+                o.id as order_id, 
+                c.name as customer_name
+            FROM orders o
+            JOIN customers c ON c.id = o.customer_id
+            WHERE c.id = %s
             """,
-            (limit,),
+            (customer_id,),
         )
-        rows = cur.fetchall()
+        orders = cur.fetchall()
 
-        for order_id, customer_id, created_at in rows:
-            # Query 1+N: busca customer por order
-            cur.execute(
-                "SELECT name FROM customers WHERE id = %s",
-                (customer_id,),
-            )
-            customer_name = cur.fetchone()[0]
-
-            # Query 1+N: busca items por order
+        for order in orders:
+            # N queries: itens por pedido
             cur.execute(
                 """
-                SELECT COUNT(*)
+                SELECT product_name, count(*) as bought
                 FROM order_items
                 WHERE order_id = %s
+                GROUP BY product_name
                 """,
-                (order_id,),
+                (order['order_id'],),
             )
-            items_count = cur.fetchone()[0]
+            items = cur.fetchall()
 
-            orders.append({
-                "order_id": order_id,
-                "customer": customer_name,
-                "items": items_count,
-                "created_at": created_at,
-            })
+            for item in items:
+                products.append({
+                    "name": item['product_name'],
+                    "quantity_bought": item['bought'],
+                })
 
     conn.close()
     return {
-        "strategy": "N+1 (intencional)",
-        "orders_returned": len(orders),
-        "orders": orders,
+        "strategy": "N+1 (intencionalmente ineficiente)",
+        "customer_name": orders[0]['customer_name'] if orders else None,
+        "products_purchased": len(products),
+        "products": products,
     }
+
 
 # -------------------------------------------------------------------
 # Endpoint CORRETO – set-based
 # -------------------------------------------------------------------
-@app.get("/orders/join")
-def list_orders_join(limit: int = 100):
+
+
+@app.get("/customers/{customer_id}/products/join")
+def customer_products_join(customer_id: int):
     conn = get_conn()
-    orders = []
+    products = []
 
     with conn.cursor() as cur:
         cur.execute(
             """
             SELECT
-                o.id,
                 c.name AS customer_name,
-                COUNT(oi.id) AS items_count,
-                o.created_at
-            FROM orders o
-            JOIN customers c ON c.id = o.customer_id
-            LEFT JOIN order_items oi ON oi.order_id = o.id
-            GROUP BY o.id, c.name, o.created_at
-            ORDER BY o.created_at DESC
-            LIMIT %s
+                oi.product_name,
+                COUNT(*) AS quantity_bought
+            FROM customers c
+            JOIN orders o
+              ON o.customer_id = c.id
+            JOIN order_items oi
+              ON oi.order_id = o.id
+            WHERE c.id = %s
+            GROUP BY
+                c.name,
+                oi.product_name
+            ORDER BY
+                oi.product_name
             """,
-            (limit,),
+            (customer_id,),
         )
 
-        for row in cur.fetchall():
-            orders.append({
-                "order_id": row[0],
-                "customer": row[1],
-                "items": row[2],
-                "created_at": row[3],
+        rows = cur.fetchall()
+
+        for row in rows:
+            products.append({
+                "name": row["product_name"],
+                "quantity_bought": row["quantity_bought"],
             })
 
     conn.close()
+
     return {
         "strategy": "JOIN (set-based)",
-        "orders_returned": len(orders),
-        "orders": orders,
+        "customer_name": rows[0]["customer_name"] if rows else None,
+        "products_purchased": len(products),
+        "products": products,
     }
