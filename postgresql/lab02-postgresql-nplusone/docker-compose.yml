@@ -1,0 +1,112 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+    environment:
+      POSTGRES_USER: lab
+      POSTGRES_PASSWORD: lab
+      POSTGRES_DB: nplusone
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      - postgres
+      - -c
+      - shared_preload_libraries=pg_stat_statements
+      - -c
+      - log_statement=none
+      - -c
+      - log_min_duration_statement=0
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h localhost -p 5432 -U lab -d nplusone"]
+      interval: 1s
+      timeout: 2s
+      retries: 5
+      start_period: 5s
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter
+    container_name: postgres-exporter
+    environment:
+      DATA_SOURCE_NAME: "postgresql://lab:lab@postgres:5432/nplusone?sslmode=disable"
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    ports:
+      - "9187:9187"
+
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+
+  ds_generator:
+    build: ./ds_generator
+    container_name: ds_generator
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    profiles:
+      - ds_generator      
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nplusone
+      DB_USER: lab
+      DB_PASSWORD: lab
+    command: >
+      python generate_data.py
+
+  backend:
+    build: ./backend
+    container_name: backend
+    profiles: ["backend"]
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: nplusone
+      DB_USER: lab
+      DB_PASSWORD: lab
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+  loadtest:
+    build: ./loadtest
+    container_name: loadtest
+    profiles: ["loadtest"]    
+    volumes:
+      - ./loadtest/backend_calling_join.lua:/wrk/backend_calling_join.lua
+      - ./loadtest/backend_calling_nplusone.lua:/wrk/backend_calling_nplusone.lua
+    tty: true
+    stdin_open: true
+
+
+
+volumes:
+  postgres_data:
